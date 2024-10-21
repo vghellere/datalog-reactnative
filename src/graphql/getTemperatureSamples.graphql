@@ -1,0 +1,7 @@
+query GetTemperatureSamples($nSamples: Int!) {
+    temperatureSamples(nSamples: $nSamples) {
+        id
+        value
+        eventTimestamp
+    }
+}
