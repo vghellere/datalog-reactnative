@@ -1,21 +1,47 @@
 import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import HomeScreen from "./src/Home";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  HttpLink,
+} from "@apollo/client";
+import ApolloLinkTimeout from "apollo-link-timeout";
+import Constants from "expo-constants";
+
+import TemperatureHistory from "./src/TemperatureHistory";
 
 const Stack = createNativeStackNavigator();
+const cache = new InMemoryCache();
+
+const graphqlHost =
+  Constants.expoConfig?.hostUri?.split(":").shift()?.concat(":3001") ??
+  "productionapi.com";
+
+const timeoutLink = new ApolloLinkTimeout(5000);
+const httpLink = new HttpLink({ uri: `http://${graphqlHost}/graphql` });
+const timeoutHttpLink = timeoutLink.concat(httpLink);
+
+const client = new ApolloClient({
+  link: timeoutHttpLink,
+  cache,
+  defaultOptions: { watchQuery: { fetchPolicy: "cache-and-network" } },
+});
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ title: "📈 Temperature History" }}
-        />
-      </Stack.Navigator>
-      <StatusBar style="light" />
-    </NavigationContainer>
+    <ApolloProvider client={client}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="TemperatureHistory">
+          <Stack.Screen
+            name="TemperatureHistory"
+            component={TemperatureHistory}
+            options={{ title: `📈 Temperature History` }}
+          />
+        </Stack.Navigator>
+        <StatusBar style="light" />
+      </NavigationContainer>
+    </ApolloProvider>
   );
 }
