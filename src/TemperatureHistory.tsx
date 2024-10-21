@@ -1,16 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, FlatList, Button } from "react-native";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 
-const TEMP_SAMPLES_QUERY = gql`
-  query {
-    temperatureSamples(nSamples: 300) {
-      id
-      value
-      eventTimestamp
-    }
-  }
-`;
+import {
+  GetTemperatureSamplesDocument,
+  GetTemperatureSamplesQuery,
+} from "../src/__generated__/graphql";
 
 const optionsFormatDate: Intl.DateTimeFormatOptions = {
   weekday: "long",
@@ -30,13 +25,15 @@ type FormattedResponse = {
   temperature: string;
 }[];
 
-const formattedResponse = (responseData: any): FormattedResponse => {
+const formattedResponse = (
+  responseData: GetTemperatureSamplesQuery,
+): FormattedResponse => {
   const dateFormat = new Intl.DateTimeFormat("en-US", optionsFormatDate);
   const timeFormat = new Intl.DateTimeFormat("en-US", optionsFormatTime);
 
   let lastDateString = "";
 
-  const formattedData = responseData?.temperatureSamples?.map((sample) => {
+  const formattedData = responseData.temperatureSamples.map((sample) => {
     const sampleDateTime = new Date(sample.eventTimestamp);
     const dateString = dateFormat.format(sampleDateTime);
 
@@ -65,9 +62,16 @@ const Item = ({ dateTime, temperature }: ItemProps) => (
 );
 
 export default function Home() {
-  const { data, loading, error, refetch } = useQuery(TEMP_SAMPLES_QUERY);
+  const { data, loading, error, refetch } = useQuery(
+    GetTemperatureSamplesDocument,
+    {
+      variables: { nSamples: 300 },
+    },
+  );
 
   const renderData = () => {
+    const parsedData = formattedResponse(data!);
+
     return (
       <FlatList
         data={parsedData}
@@ -78,7 +82,6 @@ export default function Home() {
       />
     );
   };
-  const parsedData = formattedResponse(data);
 
   return (
     <View style={styles.container}>
