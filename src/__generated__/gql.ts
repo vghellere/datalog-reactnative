@@ -14,6 +14,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 const documents = {
+    "mutation CreateTemperatureSamples($samples: [CreateTemperatureSampleInput!]!) {\n  createTemperatureSamples(temperatureSamples: $samples) {\n    id\n  }\n}": types.CreateTemperatureSamplesDocument,
     "query GetTemperatureSamples($nSamples: Int!) {\n  temperatureSamples(nSamples: $nSamples) {\n    id\n    value\n    eventTimestamp\n  }\n}": types.GetTemperatureSamplesDocument,
 };
 
@@ -31,6 +32,10 @@ const documents = {
  */
 export function gql(source: string): unknown;
 
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "mutation CreateTemperatureSamples($samples: [CreateTemperatureSampleInput!]!) {\n  createTemperatureSamples(temperatureSamples: $samples) {\n    id\n  }\n}"): (typeof documents)["mutation CreateTemperatureSamples($samples: [CreateTemperatureSampleInput!]!) {\n  createTemperatureSamples(temperatureSamples: $samples) {\n    id\n  }\n}"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

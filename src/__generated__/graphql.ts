@@ -24,6 +24,13 @@ export type CreateTemperatureSampleInput = {
   value: Scalars['Float']['input'];
 };
 
+export type CreateTemperatureSamplesMutationVariables = Exact<{
+  samples: Array<CreateTemperatureSampleInput> | CreateTemperatureSampleInput;
+}>;
+
+
+export type CreateTemperatureSamplesMutation = { __typename?: 'Mutation', createTemperatureSamples: Array<{ __typename?: 'TemperatureSample', id: string }> };
+
 export type GetTemperatureSamplesQueryVariables = Exact<{
   nSamples: Scalars['Int']['input'];
 }>;
@@ -32,4 +39,5 @@ export type GetTemperatureSamplesQueryVariables = Exact<{
 export type GetTemperatureSamplesQuery = { __typename?: 'Query', temperatureSamples: Array<{ __typename?: 'TemperatureSample', id: string, value: number, eventTimestamp: any }> };
 
 
+export const CreateTemperatureSamplesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateTemperatureSamples"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"samples"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateTemperatureSampleInput"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createTemperatureSamples"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"temperatureSamples"},"value":{"kind":"Variable","name":{"kind":"Name","value":"samples"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<CreateTemperatureSamplesMutation, CreateTemperatureSamplesMutationVariables>;
 export const GetTemperatureSamplesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetTemperatureSamples"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"nSamples"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"temperatureSamples"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"nSamples"},"value":{"kind":"Variable","name":{"kind":"Name","value":"nSamples"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"eventTimestamp"}}]}}]}}]} as unknown as DocumentNode<GetTemperatureSamplesQuery, GetTemperatureSamplesQueryVariables>;

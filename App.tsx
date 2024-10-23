@@ -11,6 +11,7 @@ import ApolloLinkTimeout from "apollo-link-timeout";
 import Constants from "expo-constants";
 
 import TemperatureHistory from "./src/TemperatureHistory";
+import BLESync from "./src/BLESync";
 
 const Stack = createNativeStackNavigator();
 const cache = new InMemoryCache();
@@ -33,14 +34,21 @@ export default function App() {
   return (
     <ApolloProvider client={client}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="TemperatureHistory">
+        <Stack.Navigator initialRouteName="BLESync">
           <Stack.Screen
             name="TemperatureHistory"
             component={TemperatureHistory}
             options={{ title: `📈 Temperature History` }}
           />
+          <Stack.Screen
+            name="BLESync"
+            component={BLESync}
+            options={{
+              title: `🔄 Sync Data`,
+            }}
+          />
         </Stack.Navigator>
-        <StatusBar style="light" />
+        <StatusBar style="auto" />
       </NavigationContainer>
     </ApolloProvider>
   );
