@@ -48,7 +48,6 @@ const formattedResponse = (
     return { id: String(sample.id), dateTime, temperature };
   });
 
-  console.log(formattedData);
   return formattedData;
 };
 
