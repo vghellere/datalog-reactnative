@@ -61,7 +61,7 @@ const Item = ({ dateTime, temperature }: ItemProps) => (
   </View>
 );
 
-export default function Home() {
+export default function TemperatureHistory() {
   const { data, loading, error, refetch } = useQuery(
     GetTemperatureSamplesDocument,
     {
