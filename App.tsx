@@ -10,10 +10,17 @@ import {
 import ApolloLinkTimeout from "apollo-link-timeout";
 import Constants from "expo-constants";
 
+import Home from "./src/Home";
 import TemperatureHistory from "./src/TemperatureHistory";
 import BLESync from "./src/BLESync";
 
-const Stack = createNativeStackNavigator();
+export type RootStackParamList = {
+  Home: undefined;
+  TemperatureHistory: undefined;
+  BLESync: undefined;
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 const cache = new InMemoryCache();
 
 const graphqlHost =
@@ -34,7 +41,12 @@ export default function App() {
   return (
     <ApolloProvider client={client}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="BLESync">
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{ title: `📈 Datalogger Home` }}
+          />
           <Stack.Screen
             name="TemperatureHistory"
             component={TemperatureHistory}

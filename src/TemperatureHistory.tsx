@@ -48,7 +48,6 @@ const formattedResponse = (
     return { id: String(sample.id), dateTime, temperature };
   });
 
-  console.log(formattedData);
   return formattedData;
 };
 
@@ -61,7 +60,7 @@ const Item = ({ dateTime, temperature }: ItemProps) => (
   </View>
 );
 
-export default function Home() {
+export default function TemperatureHistory() {
   const { data, loading, error, refetch } = useQuery(
     GetTemperatureSamplesDocument,
     {
